@@ -1,0 +1,11 @@
+ent_type
+{'correct': 4445, 'incorrect': 0, 'partial': 0, 'missed': 2553, 'spurious': 310, 'possible': 6998, 'actual': 4755, 'precision': 0.9348054679284963, 'recall': 0.635181480422978, 'f1': 0.7564026206075044}
+partial
+{'correct': 3485, 'incorrect': 0, 'partial': 960, 'missed': 2553, 'spurious': 310, 'possible': 6998, 'actual': 4755, 'precision': 0.8338590956887487, 'recall': 0.5665904544155473, 'f1': 0.6747213477410025}
+strict
+{'correct': 3485, 'incorrect': 960, 'partial': 0, 'missed': 2553, 'spurious': 310, 'possible': 6998, 'actual': 4755, 'precision': 0.732912723449001, 'recall': 0.4979994284081166, 'f1': 0.5930400748745002}
+exact
+{'correct': 3485, 'incorrect': 960, 'partial': 0, 'missed': 2553, 'spurious': 310, 'possible': 6998, 'actual': 4755, 'precision': 0.732912723449001, 'recall': 0.4979994284081166, 'f1': 0.5930400748745002}
+Krankheit
+{'ent_type': {'correct': 4445, 'incorrect': 0, 'partial': 0, 'missed': 2553, 'spurious': 310, 'possible': 6998, 'actual': 4755, 'precision': 0.9348054679284963, 'recall': 0.635181480422978, 'f1': 0.7564026206075044}, 'partial': {'correct': 3485, 'incorrect': 0, 'partial': 960, 'missed': 2553, 'spurious': 310, 'possible': 6998, 'actual': 4755, 'precision': 0.8338590956887487, 'recall': 0.5665904544155473, 'f1': 0.6747213477410025}, 'strict': {'correct': 3485, 'incorrect': 960, 'partial': 0, 'missed': 2553, 'spurious': 310, 'possible': 6998, 'actual': 4755, 'precision': 0.732912723449001, 'recall': 0.4979994284081166, 'f1': 0.5930400748745002}, 'exact': {'correct': 3485, 'incorrect': 960, 'partial': 0, 'missed': 2553, 'spurious': 310, 'possible': 6998, 'actual': 4755, 'precision': 0.732912723449001, 'recall': 0.4979994284081166, 'f1': 0.5930400748745002}}
+PS \Uni\\code\BAgitUpdate>

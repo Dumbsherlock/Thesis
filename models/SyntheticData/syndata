@@ -1,0 +1,112 @@
+import json
+import pandas as pd
+from gliner import GLiNER
+from nervaluate import Evaluator
+import pandas as pd  
+import re
+pd = pd.read_json(path_or_buf="/code//Daten/SynData/gpt_dataset_cooccurrence_v5.jsonl", lines=True)
+
+
+
+def decode_unicode_in_string(input_str):
+    # Regular expression to find Unicode escape sequences
+    unicode_pattern = re.compile(r'\\u[0-9a-fA-F]{4}')
+    
+    # Function to decode each Unicode escape sequence
+    def decode_match(match):
+        return chr(int(match.group(0)[2:], 16))
+    
+    # Replace all Unicode escape sequences in the string
+    return unicode_pattern.sub(decode_match, input_str)
+
+def find_substring_boundaries(text, substring):
+    # List to store boundaries
+    text_lower = text.lower()
+    substring_lower = substring.lower()
+    
+    boundaries = []
+    
+    # Find start positions of all occurrences
+    start = text_lower.find(substring_lower)
+    while start != -1:
+        end = start + len(substring_lower)
+        boundaries.append((start, end))
+        # Continue searching from the next position
+        start = text_lower.find(substring_lower, start + 1)
+    
+    return boundaries
+def normalize_string(input_str):
+    # Remove all non-alphanumeric characters and convert to lowercase
+    return re.sub(r'[^a-zA-Z0-9]', '', input_str).lower()
+
+def count_special_chars(substring):
+    # Count special characters (non-alphanumeric)
+    return len(re.findall(r'[^a-zA-Z0-9]', substring))
+
+
+convertedAnnotations = []
+
+for i in range(pd.shape[0]):
+    text = pd.iloc[i]["text"]
+    convertedUnicodeText = decode_unicode_in_string(text)
+    occcurenceD1 = find_substring_boundaries(text , (pd.iloc[i]["disease1"]))
+    occcurenceD2 = find_substring_boundaries(text  ,(pd.iloc[i]["disease2"]))
+    print(occcurenceD1)
+    print(occcurenceD2)
+    label = []
+    if len(occcurenceD1) > 0 and len(occcurenceD2) > 0:
+        for v in range( len(occcurenceD1)):
+            label.append({  "text":pd.iloc[i]["disease1"], "start_offset": occcurenceD1[v][0], "end_offset": occcurenceD1[v][1], "label":"Krankheit"})
+        for v in range(len(occcurenceD2)):
+            label.append({"text":pd.iloc[i]["disease2"], "start_offset": occcurenceD2[v][0], "end_offset": occcurenceD2[v][1], "label":"Krankheit"})
+        convertedAnnotations.append({"id":i, "text":convertedUnicodeText, "entities":label})
+        
+with open('/code//Daten/SynData/ConvertedData.jsonl', 'w', encoding='utf-8') as file:
+            for obj in convertedAnnotations:
+                # Dump the JSON object as a JSON string and write to file
+                file.write(json.dumps(obj) + '\n')   
+print(len(convertedAnnotations))
+
+#Gliner eval Code:
+# true = []
+# evaltrue = []
+# pred = []
+# evalpred = []
+# labels = ["Krankheit"]
+# allsamples = convertedAnnotations
+# model = GLiNER.from_pretrained("knowledgator/gliner-multitask-large-v0.5")
+# for i in range(len(allsamples)):
+#   text = convertedAnnotations[i]["text"]
+#   print(i)
+#   print(convertedAnnotations[i]["id"])
+#   groundTruths = []
+#   for entity in convertedAnnotations[i]["entities"]:
+#     groundTruth = {"text": entity["text"], "label": entity["label"],"start": entity["start_offset"], "end": entity["end_offset"]}
+#     groundTruths.append(groundTruth)
+#   print(groundTruths)
+#   textAndTrue = {"text": text, "entities": groundTruths}
+#   true.append(textAndTrue)
+#   evalpred.append(groundTruths)
+
+#   entities = model.predict_entities(text, labels, multi_label=True)
+#   print(entities)
+#   predictions = []
+#   for entity in entities:
+#     prediction = {"label": entity["label"],"start": entity["start"], "end": entity["end"]}
+#     predictions.append(prediction)
+#   textAndPred = {"text": text, "entities": predictions}
+#   pred.append(textAndPred)
+#   evaltrue.append(predictions)
+# #liste von listen von Dictionaries
+
+# evaluator = Evaluator(evaltrue, evalpred, tags=["Krankheit"])
+
+# # Returns overall metrics and metrics for each tag
+
+# results, results_per_tag, result_indices, result_indices_by_tag = evaluator.evaluate()
+# for mode in results:
+#   print(mode)
+#   print(results[mode])
+# for tag in results_per_tag:
+#   print(tag)
+#   print(results_per_tag[tag])

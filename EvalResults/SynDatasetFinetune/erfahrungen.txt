@@ -1,0 +1,3 @@
+data gets adjusted so models understand it better -> Formulation(Phrasing) will be adjusted? -> different data -> cultural impact
+
+Compare the performance drop-off to Aluminum Paper results an discuss it. 

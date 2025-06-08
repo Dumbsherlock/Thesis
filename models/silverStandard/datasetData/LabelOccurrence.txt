@@ -1,0 +1,33 @@
+Ocurrence of Labels in re-labeled Dataset
+Vorerkrankung: 21430
+Medikament: 5
+Symptom: 3425
+Anatomy: 32078
+Procedure: 14637
+Unfall: 1456
+
+Occurence in first used Dataset (PartialData - i think :/)
+Vorerkrankung: 1014
+Medikament: 1
+Symptom: 160
+Anatomy: 1600
+Procedure: 699
+Unfall: 69
+
+Occurencen in controlled Dataset (Counteddataset)
+Vorerkrankung: 500
+Medikament: 5
+Symptom: 500
+Anatomy: 500
+Procedure: 500
+Unfall: 500
+
+V3
+Vorerkrankung: 1000
+Medikament: 5
+Symptom: 1000
+Anatomy: 1000
+Procedure: 1000
+Unfall: 1000
+Negation: 0 
+Vordiagnose: 0

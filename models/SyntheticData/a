@@ -1,0 +1,47 @@
+import spacy
+
+# Load the German spaCy model
+nlp = spacy.load("de_core_news_sm")
+
+def get_base_form(word):
+    """Returns the base form (lemma) of the word."""
+    doc = nlp(word)
+    return doc[0].lemma_
+
+def find_grammatical_variations_with_indices(substring, text):
+    """Finds grammatical variations of a substring in the text and their start and end indices."""
+    
+    # Step 1: Get the base form (lemma) of the substring
+    base_form = get_base_form(substring)
+    
+    # Step 2: Process the text with spaCy
+    doc = nlp(text)
+    
+    # Step 3: Iterate over the tokens in the text and find matches
+    matches = []
+    
+    for token in doc:
+        # Match if the lemma of the token is the same as the base form
+        if token.lemma_ == base_form:
+            # Append the word's text along with its start and end indices
+            matches.append({
+                'word': token.text,
+                'start': token.idx,  # Start index in the text
+                'end': token.idx + len(token.text)  # End index in the text
+            })
+    
+    return matches
+
+# Example usage:
+substring = "diffus "  # Example word (could be a verb, noun, etc.)
+text = "Herr Maier, 66 Jahre alt, hat schon seit einiger Zeit unspezifische Beschwerden wie Müdigkeit, Gewichtsverlust und Fieber. Nach mehreren Untersuchungen wird bei ihm ein diffuses großzelliges B-Zell-Lymphom diagnostiziert. Zur Behandlung wird ihm eine systemische prophylaktische Chemotherapie verordnet, um die Ausbreitung des Tumors zu verhindern. Herr Maier muss sich regelmäßigen Untersuchungen und Kontrollen unterziehen, um den Verlauf der Krankheit zu überwachen und die Wirksamkeit der Chemotherapie zu überprüfen. Trotz der anfänglichen Schwierigkeiten durch die Therapie, verbessert sich der Zustand von Herrn Maier deutlich und er kann nach einiger Zeit wieder zu einem normalen Leben zurückkehre"
+
+# Call the function
+matches = find_grammatical_variations_with_indices(substring, text)
+
+# Output the results
+print(f"Found grammatical variations of '{substring}':")
+for match in matches:
+    print(f"Word: {match['word']}, Start index: {match['start']}, End index: {match['end']}")
+
+#ander anstz nutzen -> zwei buchstaben abziehn und dann nach wötern suchen -> bei subtrign aus  mehreren Wörten, dancah die indexe vergleichen und zusammem basteln 
